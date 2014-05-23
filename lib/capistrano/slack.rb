@@ -97,10 +97,6 @@ module Capistrano
 
                 # Make the actual request to the API
                 response = http.request(request)
-
-              rescue Faraday::Error::ParsingError
-                # FIXME deal with crazy color output instead of rescuing
-                # it's stuff like: ^[[0;33m and ^[[0m
               end
             end
           end
