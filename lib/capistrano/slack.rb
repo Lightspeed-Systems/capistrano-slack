@@ -77,11 +77,7 @@ module Capistrano
                 start_time = fetch(:start_time)
                 elapsed = end_time.to_i - start_time.to_i
 
-                msg = if fetch(:branch, nil)
-                         "#{announced_deployer} deployed #{slack_application}'s #{branch}"
-                       else
-                         "#{announced_deployer} deployed #{slack_application}"
-                       end
+                msg =  "#{announced_deployer} deployed #{slack_application}"
                 msg << " with migrations" if slack_with_migrations
                 msg << " to #{announced_stage} #{tag} successfully in #{elapsed} seconds"
 
