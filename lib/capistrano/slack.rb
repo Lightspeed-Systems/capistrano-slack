@@ -68,7 +68,7 @@ module Capistrano
                 slack_room = fetch(:slack_room)
                 slack_emoji = fetch(:slack_emoji) || ":steam_locomotive:"
                 slack_username = fetch(:slack_username) || "nocBot"
-                slack_application = fetch(:slack_application) || application
+                slack_application = application
                 slack_subdomain = fetch(:slack_subdomain)
                 return if slack_token.nil?
                 announced_deployer = fetch(:deployer)
