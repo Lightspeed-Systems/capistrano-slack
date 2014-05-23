@@ -9,10 +9,10 @@ module Capistrano
     def self.extended(configuration)
       configuration.load do
 
-        before 'deploy', 'slack:starting'
-        before 'deploy:migrations', 'slack:configure_for_migrations', 'slack:starting'
-        after 'deploy',  'slack:finished'
-        after 'deploy:migrations', 'slack:configure_for_migrations', 'slack:finished'
+#        before 'deploy', 'slack:starting'
+        #        before 'deploy:migrations', 'slack:configure_for_migrations', 'slack:starting'
+        #        after 'deploy',  'slack:finished'
+        #        after 'deploy:migrations', 'slack:configure_for_migrations', 'slack:finished'
 
         set :deployer do
           ENV['GIT_AUTHOR_NAME'] || `git config user.name`.chomp
@@ -28,8 +28,8 @@ module Capistrano
             task :starting do
               slack_token = fetch(:slack_token)
               slack_room = fetch(:slack_room)
-              slack_emoji = fetch(:slack_emoji) || ":ghost:"
-              slack_username = fetch(:slack_username) || "deploybot"
+              slack_emoji = fetch(:slack_emoji) || ":steam_locomotive:"
+              slack_username = fetch(:slack_username) || "nocBot"
               slack_application = fetch(:slack_application) || application
               slack_subdomain = fetch(:slack_subdomain)
               return if slack_token.nil?
@@ -42,7 +42,7 @@ module Capistrano
                                "#{announced_deployer} is deploying #{slack_application}"
                              end
               announcement << " with migrations" if slack_with_migrations
-              announcement << " to #{announced_stage}"
+              announcement << " to #{announced_stage} #{tag}"
 
 
               # Parse the API url and create an SSL connection
@@ -66,8 +66,8 @@ module Capistrano
               begin
                 slack_token = fetch(:slack_token)
                 slack_room = fetch(:slack_room)
-                slack_emoji = fetch(:slack_emoji) || ":ghost:"
-                slack_username = fetch(:slack_username) || "deploybot"
+                slack_emoji = fetch(:slack_emoji) || ":steam_locomotive:"
+                slack_username = fetch(:slack_username) || "nocBot"
                 slack_application = fetch(:slack_application) || application
                 slack_subdomain = fetch(:slack_subdomain)
                 return if slack_token.nil?
@@ -83,7 +83,7 @@ module Capistrano
                          "#{announced_deployer} deployed #{slack_application}"
                        end
                 msg << " with migrations" if slack_with_migrations
-                msg << " to #{announced_stage} successfully in #{elapsed} seconds"
+                msg << " to #{announced_stage} #{tag} successfully in #{elapsed} seconds"
 
                 # Parse the URI and handle the https connection
                 uri = URI.parse("https://#{slack_subdomain}.slack.com/services/hooks/incoming-webhook?token=#{slack_token}")
